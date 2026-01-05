@@ -23,7 +23,23 @@ public class MemoryLabApp {
         // 4. Add a small delay between allocations for observation
 
         // Your code here:
+        int remainingMemoryAllocTrials = 10;
+        long iter = 0L;
 
+        while (remainingMemoryAllocTrials > 0) {
+            iter++;
+            try {
+                byte[] block = new byte[1024 * 1024]; // 1 MB
+                memoryBlocks.add(block);
+                printMemoryStatus(Long.toString(iter));
+            } catch (OutOfMemoryError error){
+                remainingMemoryAllocTrials--;
+            }
+
+            //Thread.sleep(100);
+        }
+
+        memoryBlocks.removeLast(); // prevent OOM with final printMemoryStatus
         printMemoryStatus("Final");
     }
 
